@@ -1,2 +1,2 @@
 # Snake-Detector
-Using a CNN to detect the presence of snakes in the yard outside the house.
+Using FAIR's Detectron2 to detect snakes outside the house.
