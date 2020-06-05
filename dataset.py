@@ -16,13 +16,15 @@ WIDTH = 510
 CHANNELS = 3
 
 # function to pull JSON data from annotations
-def get_snake_data():
+def get_snake_data(path):
     """
     Returns a dictionary of the form { filename, x, y, x2, y2, id, label }
+
+    Params:
+        path = string path to json file
     """
     # get path to annotations JSON file
-    json_file = "./training/_annotations.json"
-    with open(json_file) as f:
+    with open(path) as f:
         full_annots = json.load(f)
 
     # create dictionary specifically for annotations
@@ -32,17 +34,18 @@ def get_snake_data():
     return annotations
 
 # function for testing whether get_snake_data function works
-def test_json(annotations):
+def test_json(annotations, path):
     """
     Tests get_snake_data() by iterating over bounding boxes in test
     images
     
     Params:
         annotations = dictionary of images and bounding box locations
+        path = path to directory of images
     """
     for filename in annotations:
         # open image
-        img = cv2.imread("./training/labeled/" + str(filename))
+        img = cv2.imread(path + str(filename))
 
         # get dimensions
         height, width, channels = img.shape
@@ -65,13 +68,14 @@ def test_json(annotations):
         cv2.destroyAllWindows()
 
 # function to properly create a Detectron2 Dataset
-def detectron2_dataset(annotations):
+def detectron2_dataset(annotations, path):
     """
     Returns a list[dict] to load into a standard Dataset as specified by 
     https://detectron2.readthedocs.io/tutorials/datasets.html
     
     Params: 
         annotations = raw dictionary of images and bounding box locations 
+        path = path to directory of images
     """
     # create list to return
     std_list = []
@@ -83,8 +87,8 @@ def detectron2_dataset(annotations):
         
         # load parameters
         img_dict["file_name"] = filename
-        img_dict["height"] = cv2.imread("./training/labeled/" + filename).shape[:1][0]
-        img_dict["width"] = cv2.imread("./training/labeled/" + filename).shape[1:2][0]
+        img_dict["height"] = cv2.imread(path + filename).shape[:1][0]
+        img_dict["width"] = cv2.imread(path + filename).shape[1:2][0]
         img_dict["image_id"] = id
 
         # load "annotations" parameter, comes in the form of list[dict]
@@ -110,30 +114,48 @@ def detectron2_dataset(annotations):
     # return standard list
     return std_list
 
+# function to verify if DatasetCatalog is loaded correctly
+def test_dataset(path):
+    """
+    Test if detectron2_dataset function is correct.
+
+    Params:
+        path = path to directory of images
+    """
+    # get train/test type from path
+    start_idx = [i for i, n in enumerate(path) if n == '/'][0] + 1
+    end_idx = [i for i, n in enumerate(path) if n == '/'][1]
+
+    # get dataset and load metadata
+    annotation = get_snake_data("./" + path[start_idx : end_idx] + "/_annotations.json")
+    data = detectron2_dataset(annotation, path)
+    snake_metadata = MetadataCatalog.get("snake_" + path[start_idx : end_idx])
+
+    # get 3 random images and check if they're correct
+    for d in random.sample(data, 3):
+        # get image
+        img = cv2.imread(path + d["file_name"])
+
+        # draw bounding box with class name and random-colord box 
+        if img is not None:
+            visualizer = Visualizer(img[:, :, ::-1], metadata=snake_metadata, scale=0.5)
+            vis = visualizer.draw_dataset_dict(d)
+            cv2.imshow("idk", vis.get_image()[:, :, ::-1])
+            cv2.waitKey()
+            cv2.destroyAllWindows()
+        else:
+            print("Failure occured while loading images or drawing boxes.")
+            break
+
 # get dataset and load into DatasetCatalog (and MetadataCatalog)
 # TODO: create test data set in test folder
-annotations = get_snake_data()
-for d in ["train", "val"]:
-    DatasetCatalog.register("snake_" + d, lambda d=d: detectron2_dataset(annotations))
+for d in ["train", "test"]:
+    annotations = get_snake_data("./" + d + "/_annotations.json")
+    DatasetCatalog.register("snake_" + d, lambda d=d: detectron2_dataset(annotations, "./" + d + "/labeled/"))
     MetadataCatalog.get("snake_" + d).set(thing_classes=["snake"])
 
 # check data
-data = detectron2_dataset(annotations)
-snake_metadata = MetadataCatalog.get("snake_train")
-for d in random.sample(data, 3):
-    # get image
-    img = cv2.imread("./training/labeled/" + d["file_name"])
-
-    # draw bounding box with class name and random-colord box 
-    if img is not None:
-        visualizer = Visualizer(img[:, :, ::-1], metadata=snake_metadata, scale=0.5)
-        vis = visualizer.draw_dataset_dict(d)
-        cv2.imshow("idk", vis.get_image()[:, :, ::-1])
-        cv2.waitKey()
-        cv2.destroyAllWindows()
-    else:
-        print("Failure occured while loading images or drawing boxes.")
-        break
+test_dataset("./train/labeled/")
 
 
 

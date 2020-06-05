@@ -3,12 +3,14 @@ import time
 from PIL import Image, ImageOps
 
 # creates replicas of unlabeled images by flipping them across y-axis 
-def flip_images():
+def flip_images(path):
     """
     GOAL: take all input images in unlabeled training data and flip them
+    Params:
+        path = string path to images
     """
     # get all files from unlabeled data set
-    filenames = [files for path, dirs, files in os.walk("../training/unlabeled/")][0]
+    filenames = [files for path, dirs, files in os.walk(path)][0]
 
     # flip images and save them
     for file in filenames:
@@ -16,23 +18,25 @@ def flip_images():
         index = file.find(".")
 
         # flip image and save
-        im = Image.open("../training/unlabeled/" + file)
+        im = Image.open(path + file)
         flipped = ImageOps.mirror(im)
-        flipped.save("../training/unlabeled/" + file[ : index] + "-f.jpg")
+        flipped.save(path + file[ : index] + "-f.jpg")
 
 # resizes and rotates images to the same dimensions
-def resize_images():
+def resize_images(path):
     """
     GOAL: take all images in unlabeled training data and rotate and resize them 
     to be the same shape and size (510x385)
+    Params:
+        path = string path to images
     """
     # get all files from unlabeled data set
-    filenames = [files for path, dirs, files in os.walk("../training/unlabeled/")][0]
+    filenames = [files for path, dirs, files in os.walk(path)][0]
 
     # rotate image if needed, resize them, then save them
     for file in filenames:
         # open image and get dimensions
-        image = Image.open("../training/unlabeled/" + file)
+        image = Image.open(path + file)
         width, height = image.size
 
         # rotate image if the height is larger than width
@@ -43,10 +47,10 @@ def resize_images():
         image = image.resize((510, 385))
         
         # save image
-        image.save("../training/unlabeled/" + file)
+        image.save(path + file)
 
-flip_images()
-resize_images()
+#flip_images("../test/unlabeled/")
+resize_images("../test/unlabeled/")
 
 
 
