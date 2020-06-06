@@ -4,6 +4,7 @@ import json
 import cv2
 import tqdm
 import random
+import matplotlib.pyplot as plt
 
 from detectron2 import model_zoo
 from detectron2.data import DatasetCatalog, MetadataCatalog
@@ -11,6 +12,22 @@ from detectron2.structures import BoxMode
 from detectron2.utils.visualizer import Visualizer
 from detectron2.engine import DefaultTrainer
 from detectron2.config import get_cfg
+
+# global constants and functions that are platform depenedent
+COLAB = False
+LOCAL = True
+platform = "./" if LOCAL else "/content/drive/My Drive/Colab Notebooks/"
+def cv2_show_img(title, img):
+  """ 
+  A wrapper for platform dependent cv2.imshow function
+  """
+  if COLAB:
+    cv2_imshow(img)
+  else:
+    cv2.imshow(title, img)
+  cv2.waitKey()
+  cv2.destroyAllWindows()
+  
 
 # global constants for labels
 labels_dict = {0: "snake", 1: "background"}
@@ -52,7 +69,6 @@ def test_json(annotations, path):
 
         # get dimensions
         height, width, channels = img.shape
-        print(height, width, channels)
 
         # draw bounding boxes on img
         for box in annotations[filename]:
@@ -66,9 +82,7 @@ def test_json(annotations, path):
             cv2.rectangle(img, (x1, y1), (x2, y2), (0, 255, 0), 3)
 
         # show image
-        cv2.imshow("snek", img)
-        cv2.waitKey()
-        cv2.destroyAllWindows()
+        cv2_show_img("Snek", img)
 
 # function to properly create a Detectron2 Dataset
 def detectron2_dataset(annotations, path):
@@ -126,73 +140,61 @@ def test_dataset(path):
         path = path to directory of images
     """
     # get train/test type from path
-    start_idx = [i for i, n in enumerate(path) if n == '/'][0] + 1
-    end_idx = [i for i, n in enumerate(path) if n == '/'][1]
+    img_type = "train" if path.find("train") != -1 else "test"
+    #start_idx = [i for i, n in enumerate(path) if n == '/'][0] + 1
+    #end_idx = [i for i, n in enumerate(path) if n == '/'][1]
 
     # get dataset and load metadata
-    annotation = get_snake_data("./" + path[start_idx : end_idx] + "/_annotations.json")
+    annotation = get_snake_data(platform + img_type + "/_annotations.json")
     data = detectron2_dataset(annotation, path)
-    snake_metadata = MetadataCatalog.get("snake_" + path[start_idx : end_idx])
+    snake_metadata = MetadataCatalog.get("snake_" + img_type)
 
     # get 3 random images and check if they're correct
     for d in random.sample(data, 3):
         # get image
         img = cv2.imread(path + d["file_name"])
 
-        # draw bounding box with class name and random-colord box 
+        # draw bounding` box with class name and random-colord box 
         if img is not None:
             visualizer = Visualizer(img[:, :, ::-1], metadata=snake_metadata, scale=0.5)
             vis = visualizer.draw_dataset_dict(d)
-            cv2.imshow("idk", vis.get_image()[:, :, ::-1])
-            cv2.waitKey()
-            cv2.destroyAllWindows()
+            cv2_show_img("Snek", vis.get_image()[:, :, ::-1])
         else:
             print("Failure occured while loading images or drawing boxes.")
             break
 
 # get dataset and load into DatasetCatalog (and MetadataCatalog)
-# TODO: create test data set in test folder
 for d in ["train", "test"]:
-    annotations = get_snake_data("./" + d + "/_annotations.json")
-    DatasetCatalog.register("snake_" + d, lambda d=d: detectron2_dataset(annotations, "./" + d + "/labeled/"))
+    annotations = get_snake_data(platform + d + "/_annotations.json")
+    DatasetCatalog.register("snake_" + d, lambda d=d: detectron2_dataset(annotations, platform + d + "/labeled/"))
     MetadataCatalog.get("snake_" + d).set(thing_classes=["snake"])
 
-# check data
-# test_dataset("./train/labeled/")
+test_dataset(platform + "train/labeled/")
 
 # Configs for Mask R-CNN X101-FPN
-cfg = get_cfg()
-cfg.merge_from_file(model_zoo.get_config_file("COCO-InstanceSegmentation/mask_rcnn_X_101_32x8d_FPN_3x.yaml"))
-cfg.MODEL.WEIGHTS = model_zoo.get_checkpoint_url("COCO-InstanceSegmentation/mask_rcnn_X_101_32x8d_FPN_3x.yaml")
-cfg.DATASETS.TRAIN = ("snake_train", )
-cfg.DATASETS.TEST = ("snake_test", )
-cfg.DATALOADER.NUM_WORKERS = 4                  # threads for data loading
-cfg.SOLVER.IMS_PER_BATCH = 4
-cfg.SOLVER.BASE_LR = 0.0005                     # change me
-cfg.SOLVER.MAX_ITER = 500                       # may need to increase later
-cfg.MODEL.ROI_HEADS.BATCH_SIZE_PER_IMAGE = 64   # may need to increase later
-cfg.MODEL.ROI_HEADS.NUM_CLASSES = 1             # 1 class (snake)
+#cfg = get_cfg()
+#cfg.merge_from_file(model_zoo.get_config_file("COCO-InstanceSegmentation/mask_rcnn_X_101_32x8d_FPN_3x.yaml"))
+#cfg.MODEL.WEIGHTS = model_zoo.get_checkpoint_url("COCO-InstanceSegmentation/mask_rcnn_X_101_32x8d_FPN_3x.yaml")
+#cfg.DATASETS.TRAIN = ("snake_train", )
+#cfg.DATASETS.TEST = ("snake_test", )
+#cfg.DATALOADER.NUM_WORKERS = 4                  # threads for data loading
+#cfg.SOLVER.IMS_PER_BATCH = 4
+#cfg.SOLVER.BASE_LR = 0.0005                     # change me
+#cfg.SOLVER.MAX_ITER = 500                       # may need to increase later
+#cfg.MODEL.ROI_HEADS.BATCH_SIZE_PER_IMAGE = 64   # may need to increase later
+#cfg.MODEL.ROI_HEADS.NUM_CLASSES = 1             # 1 class (snake)
 
 # load outputs into "output" directory
-os.makedirs(cfg.OUTPUT_DIR, exist_ok=True)
-trainer = DefaultTrainer(cfg)
-trainer.resume_or_load(resume=False)
-print("Training is starting...")
-trainer.train()
-print("Training is finished!")
+#os.makedirs(cfg.OUTPUT_DIR, exist_ok=True)
+#trainer = DefaultTrainer(cfg)
+#trainer.resume_or_load(resume=False)
+#print("Training is starting...")
+#trainer.train()
+#print("Training is finished!")
 
 # save the model
-cfg.MODEL.WEIGHTS = os.path.join(cfg.OUTPUT_DIR, "snake_detector.pth")
-cfg.MODEL.ROI_HEADS.SCORE_THRESH_TEST = 0.7
-predictor = DefaultPredictor(cfg)
-
-
-
-
-
-
-
-
-
+#cfg.MODEL.WEIGHTS = os.path.join(cfg.OUTPUT_DIR, "snake_detector.pth")
+#cfg.MODEL.ROI_HEADS.SCORE_THRESH_TEST = 0.7
+#predictor = DefaultPredictor(cfg)
 
 
