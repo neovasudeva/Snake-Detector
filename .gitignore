@@ -2,4 +2,8 @@
 
 *.swp
 
-*.jpg
+dataset.py
+
+**/*.jpg
+
+**/*.json
