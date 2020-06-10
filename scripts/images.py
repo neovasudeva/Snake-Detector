@@ -49,8 +49,8 @@ def resize_images(path):
         # save image
         image.save(path + file)
 
-resize_images("../test/new/")
-flip_images("../test/new/")
+resize_images("../train/new_train/")
+flip_images("../train/new_train/")
 
 
 
