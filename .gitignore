@@ -7,3 +7,5 @@ dataset.py
 **/*.jpg
 
 **/*.json
+
+**/env
