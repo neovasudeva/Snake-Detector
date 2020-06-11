@@ -2,8 +2,6 @@
 
 *.swp
 
-**/dataset.py
-
 **/*.pth
 
 **/*.jpg
