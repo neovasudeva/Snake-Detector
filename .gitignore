@@ -2,7 +2,9 @@
 
 *.swp
 
-dataset.py
+**/dataset.py
+
+**/*.pth
 
 **/*.jpg
 
