@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<!-- welcome and intro -->
+<div class ="container">
+  <h1>Welcome!</h1>
+  <p>blah blah blah</p>
+</div>
+
+<!-- file input -->
+<div class="container">
+  <form enctype="multipart/form-data">
+    <div class="form-group">
+      <div class="custom-file">
+        <input type="file" class="custom-file-input" id="file-upload">
+        <label class="custom-file-label" for="file-upload">Upload a photo of snakes!</label>
+      </div>
+    </div>
+  </form>
+  <form>
+    <button id="upload-btn" type="button" class="btn btn-primary">Submit</button> 
+  </form>
+</div>
+
+<!-- img uploaded -->
+<div class="container" id="display-img">
+</div>
+
+<!-- model output img -->
+<div class="container text-center" id="model-img">
+</div>
+
+<!-- scripts -->
+<script src="../static/home.js"></script>
+{% endblock content %}
