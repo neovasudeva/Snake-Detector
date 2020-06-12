@@ -15,6 +15,18 @@ async function submit() {
   let formData = new FormData();
   formData.append(img.name, img);
 
+  // clear current children
+  let mod_img = document.getElementById('model-img');
+  while (mod_img.firstChild) {
+    mod_img.removeChild(mod_img.firstChild);
+  }
+
+  // create loading animation
+  let loading = document.createElement("div");
+  loading.setAttribute("class", "spinner-border");
+  loading.setAttribute("role", "status");
+  mod_img.appendChild(loading);
+
   // get response from server
   const url = await fetch("/home", {
     method: "POST",
@@ -23,14 +35,14 @@ async function submit() {
     console.log(response);
     return response.blob();
   }).then(function(blob) {
+    // clear children from mod_img
+    while (mod_img.firstChild) {
+      mod_img.removeChild(mod_img.firstChild);
+    }
+
+    // return URL
     return URL.createObjectURL(blob);
   });
-
-  // clear current children
-  let mod_img = document.getElementById('model-img');
-  while (mod_img.firstChild) {
-    mod_img.removeChild(mod_img.firstChild);
-  }
 
   // add header child
   let new_header = document.createElement("h4");
