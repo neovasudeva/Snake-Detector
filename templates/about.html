@@ -36,6 +36,10 @@
       The model has trouble identifying snakes in blurry images. 
     </li>
     <li>
+      Multiple detections of snakes when presented an image of only one snake. I believe this issue
+      arose as a result of minimal training data (but I'm not an expert so if I'm wrong, tell me).
+    </li>
+    <li>
       The model takes a while to identify snakes. This problem can be solved easily by running inference 
       using GPUs. As of now, it runs using the CPU (because I don't have a GPU on me while developing).
     </li> 
