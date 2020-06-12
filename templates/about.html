@@ -1,5 +1,60 @@
 {% extends "layout.html" %}
 
 {% block content %}
-    <h1> About </h1>
+<!-- about --> 
+<div class="container">
+  <h1 class="text-center">About</h1>
+  <p>
+    Snake.ai relies on FAIR's Detectron2 and uses the state-of-the-art Mask R-CNN architecture to create masks
+    and bounding boxes around the snakes. The model was trained and deployed as a simple Flask application, 
+    using Bootstrap to make UI development quick and simple. The project was created and is currently maintained
+    by Neo Vasudeva (me). To see the source code, look at the 
+    <a href="https://github.com/neovasudeva/Snake-Detector">Github</a> repo. If you like what you see, please
+    star the repo!
+  </p>
+
+  <p>
+    For the future, I plan to use the model for real-time detection of snakes around the house. While snakes 
+    are not a big issue in the Northern and Western parts of the US, the Southeast has snakes hiding 
+    around every corner in the spring and summer.  
+  </p>
+</div>
+
+<!-- issues -->
+<div class="container">
+  <h1 class="text-center">Issues</h1>
+  <p>
+    This model is brand new, which means that it's pretty bad (despite my best efforts) at singling 
+    out snakes from images. Some currently known issues:
+  </p>
+  <ul>
+    <li>
+      Good at identifying snakes given images containing only snakes. this means if you put 
+      an image of a dog, the model will identify it as a snake with high confidence. 
+    </li>
+    <li>
+      The model has trouble identifying snakes in blurry images. 
+    </li>
+    <li>
+      The model takes a while to identify snakes. This problem can be solved easily by allowing
+      the model to run inference using GPUs. As of now, it runs using the CPU (because 
+      I don't have a GPU on me while developing).
+    </li> 
+  </ul>
+  <p>
+    <b>To report issues you find, raise an Issue in the Github repo linked!</b>
+  </p>
+</div>
+
+<!-- future -->
+<div class="container">
+  <h1 class="text-center">Future Releases</h1>
+  <h5 class="text-center">Current Version: 1.0</h5>
+
+  <p>
+    Every release will be aimed at reducing the time to get an identification of snakes and of course
+    solve the pressing issues mentioned above. I'll also maintain and update the current version 
+    running just for kicks.  
+  </p>
+</div>
 {% endblock content %}

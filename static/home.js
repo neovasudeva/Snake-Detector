@@ -26,11 +26,18 @@ async function submit() {
     return URL.createObjectURL(blob);
   });
 
-  // create child element
+  // clear current children
   let mod_img = document.getElementById('model-img');
   while (mod_img.firstChild) {
     mod_img.removeChild(mod_img.firstChild);
   }
+
+  // add header child
+  let new_header = document.createElement("h4");
+  new_header.innerHTML = "Model detected:";
+  mod_img.appendChild(new_header);
+
+  // add image child
   let new_img = document.createElement("IMG");
   new_img.setAttribute("alt", "model_img");
   new_img.src = await url;
@@ -55,11 +62,20 @@ function upload() {
 
   // preview the image
   let disp_img = document.getElementById("display-img");
+  let mod_img = document.getElementById('model-img');
 
   // wipe all child nodes from display container
   while (disp_img.firstChild) {
     disp_img.removeChild(disp_img.firstChild);
   }
+  while (mod_img.firstChild) {
+    mod_img.removeChild(mod_img.firstChild);
+  }
+
+  // add header child
+  let new_header = document.createElement("h4");
+  new_header.innerHTML = "Image you uploaded:";
+  disp_img.appendChild(new_header);
 
   // display uploaded image
   let new_img = document.createElement("IMG");
