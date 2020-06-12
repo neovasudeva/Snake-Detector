@@ -23,7 +23,7 @@ async function submit() {
 
   // create loading animation
   let loading = document.createElement("div");
-  loading.setAttribute("class", "spinner-border");
+  loading.setAttribute("class", "spinner-border text-primary");
   loading.setAttribute("role", "status");
   mod_img.appendChild(loading);
 
@@ -52,6 +52,7 @@ async function submit() {
   // add image child
   let new_img = document.createElement("IMG");
   new_img.setAttribute("alt", "model_img");
+  new_img.setAttribute("style", "max-width: 100%; max-height: 100%; object-fit: contain;");
   new_img.src = await url;
   mod_img.appendChild(new_img);
 }
@@ -93,6 +94,7 @@ function upload() {
   let new_img = document.createElement("IMG");
   new_img.setAttribute("alt", "#");
   new_img.setAttribute("src", URL.createObjectURL(file));
+  new_img.setAttribute("style", "max-width: 100%; max-height: 100%; object-fit: contain;");
   disp_img.appendChild(new_img);
 }
 
