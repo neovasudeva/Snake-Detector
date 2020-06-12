@@ -2,8 +2,9 @@
 
 {% block content %}
 <!-- welcome and intro -->
-<div class="container">
+<div class="container" style="padding-top: 2rem;">
   <h1 class="text-center">Welcome!</h1>
+  <br>
   <p>
     Welcome! snake.ai is a simple machine learning model built with Detectron2 used for real time 
     object detection of snakes. You can upload a photo of a snake to see if the model can detect it. 
@@ -12,7 +13,6 @@
     the model. <b>For current issues with the model and future updates, visit the 
     <a href="about">About</a> page. </b>
   </p>
-
   <p>
     To start, upload an image and wait a couple of seconds while the model tries to find snakes in 
     the image. Currently, the model can identify snakes given images of one, but performs 
@@ -38,6 +38,7 @@
 <!-- img uploaded -->
 <div class="container text-center" id="display-img">
 </div>
+<br>
 
 <!-- model output img -->
 <div class="container text-center" id="model-img" style="padding-bottom: 2rem;">
