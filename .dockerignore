@@ -1,0 +1,10 @@
+model/test/**/*
+model/test
+model/train/**/*
+model/train
+model/bin/**/*
+model/bin
+model/scripts/**/*
+model/scripts
+model/__pycache__/**/*
+model/__pycache__
