@@ -77,13 +77,13 @@ def download(url, location):
     wget.download(url, location)
 
 # launch Chrome with Selenium and fetch images with 
-wd = webdriver.Chrome("./bin/chromedriver")
+wd = webdriver.Chrome("../bin/chromedriver")
 
 # list of URLs to pull images from 
-google_urls = ["https://www.google.com/search?q=snakes+in+georgia&tbm=isch&ved=2ahUKEwi36tH6gNvpAhVNBFMKHfduAe8Q2-cCegQIABAA&oq=snakes+in+georgia&gs_lcp=CgNpbWcQA1AAWABgms43aABwAHgAgAEAiAEAkgEAmAEAqgELZ3dzLXdpei1pbWc&sclient=img&ei=lwPSXvfCNs2IzAL33YX4Dg&bih=949&biw=1853", "https://www.google.com/search?q=snake+in+grass&source=lnms&tbm=isch&sa=X&ved=2ahUKEwit-Jf5m9zpAhXTVs0KHUnhCYMQ_AUoAXoECB4QAw&biw=1853&bih=949", "https://www.google.com/search?q=copperhead&source=lnms&tbm=isch&sa=X&ved=2ahUKEwiCltyInNzpAhURHc0KHcEBDvoQ_AUoAXoECBsQAw&biw=1853&bih=949", "https://www.google.com/search?q=cottonmouth&source=lnms&tbm=isch&sa=X&ved=2ahUKEwih--2jnNzpAhWBJ80KHVfQA1QQ_AUoAXoECBkQAw&biw=1853&bih=949", "https://www.google.com/search?q=garter+snake&source=lnms&tbm=isch&sa=X&ved=2ahUKEwiniuO5nNzpAhWIW80KHe0qDOEQ_AUoAXoECBcQAw&biw=1853&bih=949", "https://www.google.com/search?q=snakes+in+desert&tbm=isch&ved=2ahUKEwjknp-9nNzpAhWFBFMKHZ7DDvUQ2-cCegQIABAA&oq=snakes+in+desert&gs_lcp=CgNpbWcQAzICCAAyBggAEAUQHjIGCAAQBRAeMgYIABAFEB4yBggAEAUQHjIGCAAQBRAeMgYIABAIEB4yBggAEAgQHjIGCAAQCBAeMgYIABAIEB46BAgAEENQo7QBWLPAAWClwQFoAHAAeACAAXKIAbQMkgEDOS43mAEAoAEBqgELZ3dzLXdpei1pbWc&sclient=img&ei=q6bSXqSdBIWJzAKeh7uoDw&bih=949&biw=1853"]
-
+google_urls = ["https://www.google.com/search?q=tree+in+lawn&source=lnms&tbm=isch&sa=X&ved=2ahUKEwjo8Zux_4HqAhUYQzABHYXRA-gQ_AUoAXoECBEQAw&biw=1853&bih=949"]
+        
 # define number of images to pull from each Google Images URL and begin search
-num_images = 0
+num_images = 30
 image_urls = set()
 count = 1
 for url in google_urls:
@@ -96,7 +96,7 @@ for url in google_urls:
 wd.close()
 
 # download each photo into "training" folder
-url_count = 0
+url_count = 661
 fails = 0
 for url in image_urls:
     # manipulate URL to get get only the image
@@ -106,7 +106,7 @@ for url in image_urls:
 
     # download image
     try: 
-        download(short_url, "./training/" + str(url_count) + ".jpg")
+        download(short_url, "../train/non_snake_images/" + str(url_count) + ".jpg")
     except Exception:
         print("Download of image with id " + str(url_count) + " failed or timed out.")
         fails += 1

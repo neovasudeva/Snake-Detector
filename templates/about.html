@@ -29,8 +29,8 @@
   </p>
   <ul>
     <li>
-      Good at identifying snakes given images containing ONLY snakes. This means if you put 
-      an image of a dog, the model will identify it as a snake with high confidence. 
+      The model has trouble identifying entangled snakes, singling out snakes while they eat something, 
+      and intertwined snakes, and snakes facing towards the camera.
     </li>
     <li>
       The model has trouble identifying snakes in blurry images. 
@@ -58,7 +58,17 @@
   <p>
     Every release will be aimed at reducing the time to get an identification of snakes and of course
     solve the pressing issues mentioned above. I'll also maintain and update the current version 
-    running just for kicks.  
+    running just for kicks. Some features I'm thinking about implementing: 
   </p>
+  <ul>
+    <li>
+      Persisting submitted images to a database for further training (with the permission of the 
+      user of course).
+    </li>
+    <li> 
+      Adding identificiation of humans and pets. This is more applicable for real-time detection around a house
+      to warn the user that a snake is in close proximity to a person or domesticated animal.
+    </li>
+  </ul>
 </div>
 {% endblock content %}
