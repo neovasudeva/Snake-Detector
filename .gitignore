@@ -10,4 +10,4 @@
 
 **/env
 
-**/*.ipynb
+*.ipynb
