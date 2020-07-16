@@ -15,6 +15,9 @@ from detectron2.config import get_cfg
 from detectron2.evaluation import COCOEvaluator, inference_on_dataset
 from detectron2.data import build_detection_test_loader
 
+# import app for DB security reasons
+from app import app
+
 # Configs for Mask R-CNN architecture
 cfg = get_cfg()
 cfg.merge_from_file(model_zoo.get_config_file("COCO-InstanceSegmentation/mask_rcnn_X_101_32x8d_FPN_3x.yaml"))
@@ -36,11 +39,7 @@ cfg.MODEL.DEVICE = 'cpu'
 snake_metadata = MetadataCatalog.get("snake_test")
 predictor = DefaultPredictor(cfg)
 
-# app configs
-# MOVE ME TO SEPEARATE FILE AND ADD TO GITIGNORE
-app = Flask(__name__)
-app.config["TRAIN"] = "./model/train/"
-app.config["TEST"] = "./model/test/"
+# MySQL connection
 
 # Version 1 REST API endpoints
 # image inference endpoint
@@ -67,7 +66,7 @@ def inference():
         file_obj.seek(0)
         return send_file(file_obj, attachment_filename='ret.jpg', mimetype='image/jpeg')
 
-    # TODO: Render 500 template
+    # TODO: Raise 500 error
     abort(500)
 
 # GPU inference endpoint
@@ -81,7 +80,7 @@ def train():
     try:
         return send_from_directory(app.config["TRAIN"], filename="train.zip", mimetype='zip', as_attachment=True)
     except FileNotFoundError:
-        # TODO: Render 500 template
+        # TODO: Raise 500 error
         abort(500)
 
 # test images endpoint
@@ -90,7 +89,7 @@ def test():
     try:
         return send_from_directory(app.config["TEST"], filename="test.zip", mimetype='zip', as_attachment=True)
     except FileNotFoundError:
-        # TODO: Render 500 template
+        # TODO: Raise 500 error
         abort(500)
 
 # run in Docker container
