@@ -15,8 +15,7 @@ from detectron2.config import get_cfg
 from detectron2.evaluation import COCOEvaluator, inference_on_dataset
 from detectron2.data import build_detection_test_loader
 
-# import app for DB security reasons
-from app import app
+from app import app, connection_pool, insert_blob
 
 # Configs for Mask R-CNN architecture
 cfg = get_cfg()
@@ -39,8 +38,6 @@ cfg.MODEL.DEVICE = 'cpu'
 snake_metadata = MetadataCatalog.get("snake_test")
 predictor = DefaultPredictor(cfg)
 
-# MySQL connection
-
 # Version 1 REST API endpoints
 # image inference endpoint
 @app.route('/inference', methods=['POST'])
@@ -50,6 +47,14 @@ def inference():
         # get file
         data = request.files[filename]
         img = Image.open(request.files[filename])
+
+        # store image in database
+        buf = io.BytesIO()
+        img.save(buf, format='JPEG')
+        img_byte = buf.getvalue()
+        insert_blob(img_byte)
+
+        # perform inference on image
         img = np.array(img)
         img = cv2.cvtColor(np.array(img), cv2.IMREAD_COLOR)
         prediction = predictor(img)
