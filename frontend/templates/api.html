@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="container" style="padding-top: 2rem;">
+  <h1 class="text-center">API</h1>
+  <h3 class="text-center">Version: <span style="color: green">1.0</span></h3>
+  <br>
+  <p>
+    Snake.ai is proud to say that we do provide REST API endpoints to submit images 
+    and get the training data used to train the current version of the model. Our 
+    endpoints are listed as such:
+    <ul>
+      <li>
+        <b>/api/v1.0/inferences/&lt;save&gt;</b> accepts POST requests of JPG images. Replace 'save' with
+        either 'true' or 'false' where 'true' will persist the data into our database and 'false' will not.
+      </li>
+      <li>
+        <b>/api/v1.0/gpu</b> takes a GET request and will return JSON on whether inference is being
+        performed on a GPU.
+      </li>
+      <li>
+        <b>/api/v1.0/train</b> takes a GET request and will return a zip file of training images and 
+        labels used to train the current version of the model.
+      </li> 
+      <li>
+        <b>/api/v1.0/train</b> takes a GET request and will return a zip file of labeled and unlabeled
+        images used to test the model.
+      </li> 
+    </ul>
+  </p>
+</div>
+{% endblock content %}

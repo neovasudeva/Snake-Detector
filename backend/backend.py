@@ -4,7 +4,7 @@ import cv2
 import io
 import torch
 from PIL import Image
-from flask import Flask, render_template, url_for, request, send_file, jsonify, send_from_directory
+from flask import Flask, render_template, url_for, request, send_file, jsonify, send_from_directory, abort
 
 from detectron2 import model_zoo
 from detectron2.data import DatasetCatalog, MetadataCatalog
@@ -40,8 +40,8 @@ predictor = DefaultPredictor(cfg)
 
 # Version 1 REST API endpoints
 # image inference endpoint
-@app.route('/inference', methods=['POST'])
-def inference():
+@app.route('/inference/<save>', methods=['POST'])
+def inference(save):
     # handle POST req
     for filename in request.files.keys():
         # get file
@@ -52,7 +52,8 @@ def inference():
         buf = io.BytesIO()
         img.save(buf, format='JPEG')
         img_byte = buf.getvalue()
-        insert_blob(img_byte)
+        if save:
+            insert_blob(img_byte)
 
         # perform inference on image
         img = np.array(img)
@@ -71,7 +72,7 @@ def inference():
         file_obj.seek(0)
         return send_file(file_obj, attachment_filename='ret.jpg', mimetype='image/jpeg')
 
-    # TODO: Raise 500 error
+    # Raise 500 error
     abort(500)
 
 # GPU inference endpoint
@@ -85,8 +86,8 @@ def train():
     try:
         return send_from_directory(app.config["TRAIN"], filename="train.zip", mimetype='zip', as_attachment=True)
     except FileNotFoundError:
-        # TODO: Raise 500 error
-        abort(500)
+        # Raise 500 error
+        abort(404)
 
 # test images endpoint
 @app.route('/test', methods=['GET'])
@@ -94,9 +95,10 @@ def test():
     try:
         return send_from_directory(app.config["TEST"], filename="test.zip", mimetype='zip', as_attachment=True)
     except FileNotFoundError:
-        # TODO: Raise 500 error
-        abort(500)
+        # Raise 500 error
+        abort(404)
 
 # run in Docker container
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5001, debug=True)
+

@@ -1,7 +1,8 @@
 // event handler for submit button
 async function submit() {
-  // get uploaded image and output container
+  // get uploaded image and checkbox value
   let imgs = document.getElementById("file-upload").files;
+  let check = document.getElementById("save").checked;
 
   // check if image was uploaded at all
   if (imgs.length == 0) {
@@ -28,7 +29,7 @@ async function submit() {
   mod_img.appendChild(loading);
 
   // get response from server
-  const url = await fetch("/home", {
+  const url = await fetch("/home?save=" + check, {
     method: "POST",
     body: formData
   }).then(function(response) {
@@ -65,7 +66,6 @@ function upload() {
 
   // verify JPG extension
   if (file.type != "image/jpeg") {
-    console.log(file.type);
     alert("Please upload JPG files only.");
     return;
   }

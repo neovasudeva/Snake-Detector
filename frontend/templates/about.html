@@ -7,8 +7,10 @@
   <p>
     Snake.ai relies on FAIR's Detectron2 and uses the state-of-the-art Mask R-CNN architecture to create masks
     and bounding boxes around the snakes. The model was trained and deployed as a simple Flask application, 
-    using Bootstrap to make UI development quick and simple. The project was created and is currently maintained
-    by Neo Vasudeva (me). To see the source code, look at the 
+    using Bootstrap to make UI development quick and simple. To make the application scalable, the application was
+    built with a microservice architecture in mind and deployed into Docker containers with Kubernetes as the
+    container orchestration service. The project was created and is currently maintained by Neo Vasudeva (me). 
+    To see the source code, look at the 
     <a href="https://github.com/neovasudeva/Snake-Detector">Github</a> repo. If you like what you see, please
     star the repo!
   </p>
@@ -24,8 +26,7 @@
 <div class="container" style="padding-top: 1rem;">
   <h1 class="text-center">Issues</h1>
   <p>
-    This model is brand new, which means that it's pretty bad (despite my best efforts) at singling 
-    out snakes from images. Some currently known issues:
+    This model is relatively new, which means that it's not yet the perfect snake identifier. Some currently known issues:
   </p>
   <ul>
     <li>
@@ -33,15 +34,11 @@
       finding multiple intertwined snakes, and identifying snakes facing towards the camera.
     </li>
     <li>
-      The model has trouble identifying snakes in blurry images. 
+      The HTML form is not secure. Will be fixed in a future version.
     </li>
     <li>
-      Multiple detections of snakes when presented an image of only one snake. I believe this issue
-      arose as a result of minimal training data (but I'm not an expert so if I'm wrong, tell me).
-    </li>
-    <li>
-      The model takes a while to identify snakes. This problem can be solved easily by running inference 
-      using GPUs. As of now, it runs using the CPU (because I don't have a GPU on me while developing).
+      Inference is performed on the CPU, which is slow. However, this requires a GPU, which I'm not willing
+      to pay for. 
     </li> 
   </ul>
   <p>
@@ -53,7 +50,7 @@
 <!-- future -->
 <div class="container" style="padding-top: 1rem;">
   <h1 class="text-center">Future Releases</h1>
-  <h5 class="text-center">Current Version: 1.0</h5>
+  <h5 class="text-center">Current Version: <span style="color: green">1.0</span></h5>
 
   <p>
     Every release will be aimed at reducing the time to get an identification of snakes and of course
@@ -62,12 +59,11 @@
   </p>
   <ul>
     <li>
-      Persisting submitted images to a database for further training (with the permission of the 
-      user of course).
+      Securing the HTML form. I had trouble integrating Flask WTForms and decided to deal with the raw
+      submission of a custom form at the cost of security.
     </li>
     <li> 
-      Adding identificiation of humans and pets. This is more applicable for real-time detection around a house
-      to warn the user that a snake is in close proximity of a person or domesticated animal.
+      Training the model on harder-to-identify images of snakes.
     </li>
   </ul>
 </div>

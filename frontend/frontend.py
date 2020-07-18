@@ -1,10 +1,9 @@
 import os
 import numpy as np
-import cv2
 import io
 import requests
 from PIL import Image
-from flask import Flask, render_template, url_for, request, send_file
+from flask import Flask, render_template, url_for, request, send_file, abort
 
 # start application
 app = Flask(__name__)
@@ -15,10 +14,19 @@ app = Flask(__name__)
 def home():
     # handle POST req
     if request.method == 'POST':
+        # save data to db?
+        save = request.args.get("save")
+
+        # verify save value
+        if save != 'true' and save != 'false':
+            abort(400)  # bad req
+        
+        # pass image for inference
         for filename in request.files.keys():
             # hit backend inference API and return boxed snakes
             img_file = {'file' : request.files[filename]}
-            response = requests.post(url='http://localhost:5001/inference', files=img_file)
+            url = 'http://localhost:5001/inference/' + save
+            response = requests.post(url=url, files=img_file)
 
             # pull image from response and send back to user
             img = Image.open(io.BytesIO(response.content))
@@ -35,6 +43,10 @@ def home():
 @app.route('/about')
 def about():
     return render_template('about.html')
+
+@app.route('/api')
+def api():
+    return render_template('api.html')
 
 # run in Docker container
 if __name__ == '__main__':

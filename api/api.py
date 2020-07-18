@@ -2,18 +2,22 @@ import requests
 import zipfile
 import io
 from PIL import Image
-from flask import Flask, render_template, url_for, request, send_file, jsonify
+from flask import Flask, render_template, url_for, request, send_file, jsonify, abort
 
 # start application
 app = Flask(__name__)
 
 # routes
-@app.route('/api/v1.0/inference', methods=['POST'])
-def inference():
+@app.route('/api/v1.0/inference/<save>', methods=['POST'])
+def inference(save):
+    # verify save value
+    if save != 'true' or save != 'false':
+        abort(400)  # bad req
+
     for filename in request.files.keys():
         # hit backend inference API and return boxed snakes
         img_file = {'file' : request.files[filename]}
-        response = requests.post(url='http://localhost:5001/inference', files=img_file)
+        response = requests.post(url='http://localhost:5001/inference/' + save, files=img_file)
 
         # pull image from response and send back to user
         img = Image.open(io.BytesIO(response.content))

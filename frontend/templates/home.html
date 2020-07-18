@@ -8,9 +8,10 @@
   <p>
     Welcome! snake.ai is a simple machine learning model built with Detectron2 used for real time 
     object detection of snakes. You can upload a photo of a snake to see if the model can detect it. 
-    <b>Do not upload anything that you don't want the developer to see!</b> While images you upload 
-    are not stored anywhere, future updates plan on saving some uploaded images to further train 
-    the model. <b>For current issues with the model and future updates, visit the 
+    <b>Do not upload anything that you don't want the developer to see!</b> You have the option to allow
+    us to save submitted images by checking the box below. Using your images, we can train the model to be better.
+    However, once you've checked the box and submitted an image, the image will be saved in our database 
+    and you will not be able to delete it. <b>For current issues with the model and future updates, visit the 
     <a href="about">About</a> page. </b>
   </p>
   <p>
@@ -29,9 +30,15 @@
         <label class="custom-file-label" for="file-upload">Upload a photo of snakes!</label>
       </div>
     </div>
-  </form>
-  <form>
-    <button id="upload-btn" type="button" class="btn btn-primary">Submit</button> 
+    <div class="form-group">
+      <button id="upload-btn" type="button" class="btn btn-primary">Submit</button> 
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" id="save">
+        <label class="form-check-label" for="save">
+          I allow the snake.ai to save this image
+        </label>
+      </div>
+    </div>
   </form>
 </div>
 
