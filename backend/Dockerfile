@@ -10,6 +10,9 @@ RUN apt-get update \
 WORKDIR /backend
 COPY . /backend
 
+# change permissions on wait-for-it script
+RUN chmod 755 /backend/wait-for-it.sh
+
 # install dependencies in virtual env 
 RUN pip3 install --upgrade pip \
     && pip3 install -r requirements.txt \
@@ -21,5 +24,4 @@ ENV PATH env/bin:$PATH
 
 # expose ports and run
 EXPOSE 5001
-ENTRYPOINT ["gunicorn"]
-CMD ["-b", "0.0.0.0:5001", "--access-logfile", "-", "--error-logfile", "-", "wsgi"]
+CMD ["gunicorn", "-b", "0.0.0.0:5001", "--access-logfile", "-", "--error-logfile", "-", "wsgi"]

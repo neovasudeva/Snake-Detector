@@ -13,3 +13,5 @@
 *.ipynb
 
 **/app.py
+
+docker-compose.yaml
