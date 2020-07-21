@@ -1,0 +1,6 @@
+wheel
+zipfile36
+requests
+Pillow
+Flask
+gunicorn
