@@ -1,0 +1,9 @@
+Cython
+wheel
+numpy
+requests
+Pillow
+Flask
+gunicorn
+
+

@@ -25,7 +25,7 @@ def home():
         for filename in request.files.keys():
             # hit backend inference API and return boxed snakes
             img_file = {'file' : request.files[filename]}
-            url = 'http://localhost:5001/inference/' + save
+            url = 'http://0.0.0.0:5001/inference/' + save
             response = requests.post(url=url, files=img_file)
 
             # pull image from response and send back to user
