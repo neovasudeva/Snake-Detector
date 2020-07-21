@@ -6,7 +6,4 @@ model/bin/**/*
 model/bin
 model/scripts/**/*
 model/scripts
-model/__pycache__/**/*
-model/__pycache__
-.git/**/*
-.gitignore
+*/__pycache__
