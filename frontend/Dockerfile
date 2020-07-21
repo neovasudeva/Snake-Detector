@@ -13,7 +13,7 @@ RUN apk add --no-cache --update \
 WORKDIR /frontend
 COPY . /frontend
 
-# install dependencies in virtual env (weird stuff happening in requirements.txt?)
+# install dependencies in virtual env 
 RUN python -m venv env \
     && env/bin/pip3 install --upgrade pip \
     && env/bin/pip3 install -r requirements.txt

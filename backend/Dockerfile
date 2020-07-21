@@ -1,28 +1,25 @@
 # base image
-FROM ubuntu:18.04
+FROM python:3.6-stretch
 
-# install python, pip, and dependencies
+# install requirements
 RUN apt-get update \
-  && apt-get install -y libsm6 libxext6 libxrender-dev \
-  && apt-get install -y python3-pip python3-dev \
-  && cd /usr/local/bin \
-  && ln -s /usr/bin/python3 python \
-  && pip3 install --upgrade pip \
-  && apt-get install -y git 
+    && apt-get install -y libsm6 libxext6 libxrender-dev \
+    && apt-get install -y gcc python3-pip python3-dev 
 
-# copy over source code
-WORKDIR /app
-COPY . /app
+# create workdir and copy source code
+WORKDIR /backend
+COPY . /backend
 
-# install dependencies
-RUN pip3 install -r requirements.txt \
-  && pip3 install pycocotools \
-  && pip3 install torch==1.5.0+cpu torchvision==0.6.0+cpu -f https://download.pytorch.org/whl/torch_stable.html \
-  && pip3 install 'git+https://github.com/facebookresearch/detectron2.git'
+# install dependencies in virtual env 
+RUN pip3 install --upgrade pip \
+    && pip3 install -r requirements.txt \
+    && pip3 install torch==1.5.0+cpu torchvision==0.6.0+cpu -f https://download.pytorch.org/whl/torch_stable.html \
+    && pip3 install 'git+https://github.com/facebookresearch/detectron2.git'
 
-# expose ports 
-EXPOSE 5000
+# add virtual env bin to path
+ENV PATH env/bin:$PATH
 
-# run index.py
-ENTRYPOINT ["python3"]
-CMD ["index.py"]
+# expose ports and run
+EXPOSE 5001
+ENTRYPOINT ["gunicorn"]
+CMD ["-b", "0.0.0.0:5001", "--access-logfile", "-", "--error-logfile", "-", "wsgi"]

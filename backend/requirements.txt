@@ -1,6 +1,8 @@
-numpy==1.18.5
-matplotlib==3.2.1
-Cython==0.29.20
-opencv-python==4.2.0.34
-tqdm==4.46.1
-Flask==1.1.2
+Cython
+wheel
+numpy
+Pillow
+mysql-connector-python
+opencv-python
+Flask
+gunicorn
