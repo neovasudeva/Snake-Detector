@@ -65,13 +65,11 @@ def inference(save):
         v = v.draw_instance_predictions(prediction["instances"].to("cpu"))
         output = v.get_image()[:, :, ::-1]
 
-        # suitable format to return prediction
+        # send the output image back to 
         file_obj = io.BytesIO()
         ret_img = Image.fromarray(output.astype('uint8'))
         ret_img.save(file_obj, 'jpeg')
         file_obj.seek(0)
-
-        # return the image
         return send_file(file_obj, attachment_filename='ret.jpg', mimetype='image/jpeg')
 
     # Raise 500 error

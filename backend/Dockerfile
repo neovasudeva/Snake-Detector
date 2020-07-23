@@ -22,6 +22,9 @@ RUN pip3 install --upgrade pip \
 # add virtual env bin to path
 ENV PATH env/bin:$PATH
 
+# BUG FIX FOR MEM LEAK
+ENV LRU_CACHE_CAPACITY 1
+
 # expose ports and run
 EXPOSE 5001
 CMD ["gunicorn", "-b", "0.0.0.0:5001", "--access-logfile", "-", "--error-logfile", "-", "wsgi"]

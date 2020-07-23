@@ -172,14 +172,14 @@ print("Configurations are done!")
 
 # load test dataset
 # NOTE: had some weird problem where it was training on test dataset
-LOAD_TEST = False
+LOAD_TEST = True
 if LOAD_TEST:
     DatasetCatalog.register("snake_test", lambda d="test/": detectron2_dataset(platform + d))
     MetadataCatalog.get("snake_test").set(thing_classes=["snake"])
 
 # load model and make predictions
-cfg.MODEL.WEIGHTS = os.path.join(cfg.OUTPUT_DIR, "model_v2.pth")
-cfg.MODEL.ROI_HEADS.SCORE_THRESH_TEST = 0.94
+cfg.MODEL.WEIGHTS = os.path.join(cfg.OUTPUT_DIR, "model_v3.pth")
+cfg.MODEL.ROI_HEADS.SCORE_THRESH_TEST = 0.9
 cfg.DATASETS.TEST = ("snake_test", )
 snake_metadata = MetadataCatalog.get("snake_test")
 predictor = DefaultPredictor(cfg)
