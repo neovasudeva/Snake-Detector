@@ -27,4 +27,4 @@ ENV LRU_CACHE_CAPACITY 1
 
 # expose ports and run
 EXPOSE 5001
-CMD ["gunicorn", "-b", "0.0.0.0:5001", "--access-logfile", "-", "--error-logfile", "-", "wsgi"]
+CMD ["gunicorn", "-b", "0.0.0.0:5001", "-w", "4", "--access-logfile", "-", "--error-logfile", "-", "wsgi"]

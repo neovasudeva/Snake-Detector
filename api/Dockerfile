@@ -27,4 +27,4 @@ RUN source env/bin/activate
 # expose ports and run
 EXPOSE 5002
 ENTRYPOINT ["gunicorn"]
-CMD ["-b", "0.0.0.0:5002", "--access-logfile", "-", "--error-logfile", "-", "wsgi"]
+CMD ["-b", "0.0.0.0:5002", "-w", "4", "--access-logfile", "-", "--error-logfile", "-", "wsgi"]
