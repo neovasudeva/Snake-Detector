@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db-deployment
+  labels:
+    app: db-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db-app
+  template:
+    metadata:
+      labels:
+        app: db-app
+    spec:
+      volumes:
+       - name: db-mount 
+         persistentVolumeClaim:
+          claimName: db-claim
+      containers:
+      - name: snake-db
+        image: neovasudeva/snake-db
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3306
+        env: 
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: snake-secret
+              key: mysql-root-password 
+        - name: MYSQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: snake-secret
+              key: mysql-username
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: snake-secret
+              key: mysql-root-password
+        - name: MYSQL_DATABASE
+          value: snake
+        volumeMounts:
+        - name: db-mount
+          mountPath: /var/lib/mysql
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: db
+spec:
+  selector:
+    app: db-app
+  ports:
+    - protocol: TCP
+      port: 3306
+      targetPort: 3306
+
