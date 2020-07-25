@@ -17,3 +17,5 @@
 docker-compose.yaml
 
 deployment/secret.yaml
+
+deployment/snake-cluster-kubeconfig.yaml
