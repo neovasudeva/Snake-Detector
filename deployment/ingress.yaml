@@ -2,9 +2,22 @@ apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
   name: snake-ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
 spec:
   rules:
-  - host: ingress-test.com
+  - host: snakedetector.ml
+    http:
+      paths:
+      - path: /api/v1.0
+        backend:
+          serviceName: api
+          servicePort: 5002
+      - path: /
+        backend:
+          serviceName: frontend
+          servicePort: 5000
+  - host: www.snakedetector.ml
     http:
       paths:
       - path: /api/v1.0
