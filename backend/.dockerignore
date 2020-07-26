@@ -6,4 +6,6 @@ model/bin/**/*
 model/bin
 model/scripts/**/*
 model/scripts
+model/output/model_v2.pth
+model/output/dataset.py
 */__pycache__
