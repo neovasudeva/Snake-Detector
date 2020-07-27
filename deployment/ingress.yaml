@@ -4,7 +4,13 @@ metadata:
   name: snake-ingress
   annotations:
     kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
+  tls:
+  - hosts:
+    - snakedetector.ml
+    - www.snakedetector.ml
+    secretName: snake-tls
   rules:
   - host: snakedetector.ml
     http:

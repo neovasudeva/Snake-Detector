@@ -18,4 +18,4 @@ docker-compose.yaml
 
 deployment/secret.yaml
 
-deployment/snake-cluster-kubeconfig.yaml
+deployment/production_issuer.yaml
