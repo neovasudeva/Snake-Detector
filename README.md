@@ -6,9 +6,13 @@ I don't currently have the resources to set that up, I have (for now) deployed a
 For the model, I used FAIR's Detectron2 and used transfer learning to train a Mask-RCNN model. Images were scraped from the web
 using Selenium and labeled using the LabelMe tool. Once labeled, the images were fed to the model and trained on Google Colab.
 <br>
+<center>
 ![image1](https://github.com/neovasudeva/Snake-Detector/blob/dev/images/im1.jpg)
+</center>
 <br>
+<center>
 ![image2](https://github.com/neovasudeva/Snake-Detector/blob/dev/images/im2.jpg)
+</center>
 <br>
 
 # Web application
