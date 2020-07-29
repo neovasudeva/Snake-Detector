@@ -6,13 +6,13 @@ I don't currently have the resources to set that up, I have (for now) deployed a
 For the model, I used FAIR's Detectron2 and used transfer learning to train a Mask-RCNN model. Images were scraped from the web
 using Selenium and labeled using the LabelMe tool. Once labeled, the images were fed to the model and trained on Google Colab.
 <br>
-<center>
-![image1](https://github.com/neovasudeva/Snake-Detector/blob/dev/images/im1.jpg)
-</center>
+<p align="center">
+  <img src="https://github.com/neovasudeva/Snake-Detector/blob/dev/images/im1.jpg" />
+</p>
 <br>
-<center>
-![image2](https://github.com/neovasudeva/Snake-Detector/blob/dev/images/im2.jpg)
-</center>
+<p align="center">
+  <img src="https://github.com/neovasudeva/Snake-Detector/blob/dev/images/im2.jpg" />
+</p>
 <br>
 
 # Web application
@@ -20,7 +20,7 @@ I like a modular style of building applications, so I decided to employ a micros
 I separated the application into logical partitions (frontend, backend, api, database) and had each service communicate with each 
 other over REST endpoints.
 
-The api service is supposed to serve as the API gateway (because NGINX Plus is not free). I was going to make it non-blocking,
+The API service is supposed to serve as the API gateway (because NGINX Plus and AWS Lambda is not free). I was going to make it non-blocking,
 but because Python has only recently supported asynchronous I/O (aiohttp) and is constantly changing it with every new version
 of Python, I decided to wait until it settles.
 
