@@ -5,10 +5,8 @@ I don't currently have the resources to set that up, I have (for now) deployed a
 # Model
 For the model, I used FAIR's Detectron2 and used transfer learning to train a Mask-RCNN model. Images were scraped from the web
 using Selenium and labeled using the LabelMe tool. Once labeled, the images were fed to the model and trained on Google Colab.
-![image1](./images/0.png)
-Format: ![Alt Text](image1)
-![image2](./images/2.png)
-Format: ![Alt Text](image2)
+![image1](https://github.com/neovasudeva/Snake-Detector/blob/dev/images/im1.jpg)
+![image2](https://github.com/neovasudeva/Snake-Detector/blob/dev/images/im2.jpg)
 
 # Web application
 I like a modular style of building applications, so I decided to employ a microservices approach to building this application.
