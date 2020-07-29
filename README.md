@@ -5,9 +5,9 @@ I don't currently have the resources to set that up, I have (for now) deployed a
 # Model
 For the model, I used FAIR's Detectron2 and used transfer learning to train a Mask-RCNN model. Images were scraped from the web
 using Selenium and labeled using the LabelMe tool. Once labeled, the images were fed to the model and trained on Google Colab.
-![GitHub Logo](/images/0.png)
+![image1](/images/0.png)
 Format: ![Alt Text](image1)
-![GitHub Logo](/images/2.png)
+![image2](/images/2.png)
 Format: ![Alt Text](image2)
 
 # Web application
