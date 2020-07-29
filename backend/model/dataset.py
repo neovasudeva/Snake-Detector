@@ -140,7 +140,7 @@ class SnakeTrainer(DefaultTrainer):
         return COCOEvaluator(dataset_name, cfg, False, output_folder)
 
 # test dataset
-test_dataset(platform + "train/")
+# test_dataset(platform + "train/")
 
 # load train dataset
 LOAD_TRAIN = False
@@ -188,7 +188,7 @@ predictor = DefaultPredictor(cfg)
 #eval_dataset = detectron2_dataset(platform + "test/")
 #for d in eval_dataset:
 print("Running predictions...")
-for file in os.listdir(platform + "test/unlabeled_imgs/"):
+for num, file in enumerate(random.sample(os.listdir(platform + "test/unlabeled_imgs/"), 3)):
     img = cv2.imread(platform + "test/unlabeled_imgs/" + file) #cv2.imread(d["file_name"])  
     outputs = predictor(img)
     
