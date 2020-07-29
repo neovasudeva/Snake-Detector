@@ -5,8 +5,7 @@
 **/*.pth
 
 **/*.jpg
-!im1.jpg
-!im2.jpg
+!im?.jpg
 
 **/*.json
 

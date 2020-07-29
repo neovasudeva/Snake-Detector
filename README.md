@@ -14,6 +14,10 @@ using Selenium and labeled using the LabelMe tool. Once labeled, the images were
   <img src="https://github.com/neovasudeva/Snake-Detector/blob/dev/images/im2.jpg" />
 </p>
 <br>
+<p align="center">
+  <img src="https://github.com/neovasudeva/Snake-Detector/blob/dev/images/im3.jpg" />
+</p>
+<br>
 
 # Web application
 I like a modular style of building applications, so I decided to employ a microservices approach to building this application.

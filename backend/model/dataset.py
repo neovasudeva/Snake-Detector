@@ -195,6 +195,7 @@ for num, file in enumerate(random.sample(os.listdir(platform + "test/unlabeled_i
     v = Visualizer(img[:, :, ::-1], metadata=snake_metadata, scale=0.8)
     v = v.draw_instance_predictions(outputs["instances"].to("cpu"))
     cv2_show_img("Prediction", v.get_image()[:, :, ::-1])
+    cv2.imwrite(str(num) + ".jpg", v.get_image()[:, :, ::-1])
 
 # running evaluation
 #evaluator = COCOEvaluator("snake_test", cfg, False, output_dir=platform + "output/")
