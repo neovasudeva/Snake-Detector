@@ -7,11 +7,19 @@ For the model, I used FAIR's Detectron2 and used transfer learning to train a Ma
 using Selenium and labeled using the LabelMe tool. Once labeled, the images were fed to the model and trained on Google Colab.
 <br>
 <p align="center">
-  <img src="https://raw.githubusercontent.com/neovasudeva/Snake-Detector/blob/dev/images/im1.jpg" />
+
+  <!--<img src="https://github.com/neovasudeva/Snake-Detector/blob/dev/images/im1.jpg" />-->
+
+  ![ScreenShot](/images/im1.jpg)    
+
 </p>
 <br>
 <p align="center">
-  <img src="https://raw.githubusercontent.com/neovasudeva/Snake-Detector/blob/dev/images/im3.jpg" />
+
+  <!--<img src="https://github.com/neovasudeva/Snake-Detector/blob/dev/images/im3.jpg" />-->
+
+  ![ScreenShot](/images/im3.jpg)    
+
 </p>
 <br>
 After asking friends to try the model out, I've realized this model is only good with finding snakes far from the camera and in the outdoors 
