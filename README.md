@@ -23,7 +23,7 @@ I like a modular style of building applications, so I decided to employ a micros
 I separated the application into logical partitions (frontend, backend, api, database) and had each service communicate with each 
 other over REST endpoints.
 
-The API service is supposed to serve as the API gateway (because NGINX Plus and AWS Lambda is not free). I was going to make it non-blocking,
+The API service is supposed to serve as the API gateway (because NGINX Plus and AWS Lambda are not free). I was going to make it non-blocking,
 but because Python has only recently supported asynchronous I/O (aiohttp) and is constantly changing it with every new version
 of Python, I decided to wait until it settles.
 
@@ -34,4 +34,4 @@ just made a Deployment with a single replica (and persistent volumes of course).
 
 GCP, AWS, and Azure Kubernetes services were very expensive for this hobby web application. I decided to host on DigitalOcean because
 they didn't slap on a maintenance fee (looking at you GCP) for master services. Following DOKS's guide, I also added SSL/TLS certificates 
-because Chrome hates website that don't have them.
+because Google hates website that don't have them.
